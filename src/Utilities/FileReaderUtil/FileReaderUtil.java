@@ -22,6 +22,6 @@ public class FileReaderUtil {
             logger.log(Level.SEVERE, "Error while reading the file: " + path, e);
             throw e;
         }
-        return content.toString();
+        return content.toString().trim();
     }
 }
