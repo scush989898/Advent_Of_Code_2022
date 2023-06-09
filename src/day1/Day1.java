@@ -1,8 +1,7 @@
 package day1;
 
+import Utilities.FileReaderUtil.FileReaderUtil;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,42 +13,35 @@ public class Day1 {
     public static void main(String[] args) throws IOException {
 
         Path path = Paths.get("./src/day1/inputs/input.txt").normalize();
-        BufferedReader reader = new BufferedReader(new FileReader(path.toFile()));
 
-        String line;
-        StringBuilder input = new StringBuilder();
+        String content = FileReaderUtil.read(path);
 
         List<List<Integer>> calories = new ArrayList<>();
         List<Integer> totalCalories = new ArrayList<>();
 
-        while ((line = reader.readLine()) != null) {
-            input.append(line);
-            input.append(System.lineSeparator());
-        }
+        String[] validatedInput = content.split("\\s*\\n\\s*\\n\\s*");
 
-        String[] validatedInput = input.toString().split("\\s*\\n\\s*\\n\\s*");
-
-
-        for (int i = 0; i < validatedInput.length; i++) {
+        for (String s : validatedInput) {
             List<Integer> tempList = new ArrayList<>();
-            List<String> currentListOfCalories = List.of(validatedInput[i].split("\n"));
+            List<String> currentListOfCalories = List.of(s.split("\n"));
 
-            for (String item: currentListOfCalories) {
+            for (String item : currentListOfCalories) {
                 tempList.add(Integer.parseInt(item.trim()));
             }
             calories.add(tempList);
         }
 
-        for (int i = 0; i < calories.size(); i++) {
-            Integer currentCaloriesSum = calories.get(i).stream().reduce(0, Integer::sum);
+        for (List<Integer> calory : calories) {
+            Integer currentCaloriesSum = calory.stream().reduce(0, Integer::sum);
             totalCalories.add(currentCaloriesSum);
         }
 
-        List<Integer> sortedCalories =  totalCalories.stream().sorted().toList();
+        List<Integer> sortedCalories = totalCalories.stream().sorted().toList();
 
         Integer maxCalories = sortedCalories.get(totalCalories.size() - 1);
 
         //        part one answer
+//        69289
         System.out.println(maxCalories);
 
 
@@ -57,8 +49,8 @@ public class Day1 {
         Integer sumCalories = sortedCalories.stream().reduce(0, Integer::sum);
 
         //        part two answer
+//        205615
         System.out.println(sumCalories);
 
-        reader.close();
     }
 }
